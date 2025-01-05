@@ -28,34 +28,53 @@ class Club < ApplicationRecord
     match.draw?
   end
 
+  # def win_on(year)
+  #   year = Date.new(year, 1, 1)
+  #   count = 0
+  #   matches.where(kicked_off_at: year.all_year).each do |match|
+  #     count += 1 if won?(match)
+  #   end
+  #   count
+  # end
+
+  # def lost_on(year)
+  #   year = Date.new(year, 1, 1)
+  #   count = 0
+  #   matches.where(kicked_off_at: year.all_year).each do |match|
+  #     count += 1 if lost?(match)
+  #   end
+  #   count
+  # end
+
+  # def draw_on(year)
+  #   year = Date.new(year, 1, 1)
+  #   count = 0
+  #   matches.where(kicked_off_at: year.all_year).each do |match|
+  #     count += 1 if draw?(match)
+  #   end
+  #   count
+  # end
   def win_on(year)
-    year = Date.new(year, 1, 1)
-    count = 0
-    matches.where(kicked_off_at: year.all_year).each do |match|
-      count += 1 if won?(match)
-    end
-    count
+    matches_in_year(year).count(&method(:won?))
   end
-
+  
   def lost_on(year)
-    year = Date.new(year, 1, 1)
-    count = 0
-    matches.where(kicked_off_at: year.all_year).each do |match|
-      count += 1 if lost?(match)
-    end
-    count
+    matches_in_year(year).count(&method(:lost?))
   end
-
+  
   def draw_on(year)
-    year = Date.new(year, 1, 1)
-    count = 0
-    matches.where(kicked_off_at: year.all_year).each do |match|
-      count += 1 if draw?(match)
-    end
-    count
+    matches_in_year(year).count(&method(:draw?))
+  end
+  
+
+  def players_average_age
+    (players.sum(&:age) / players.length).to_f
   end
 
-  def homebase
-    "#{hometown}, #{country}"
-  end
+  private
+
+    def matches_in_year(year)
+      year = Date.new(year, 1, 1)
+      matches.where(kicked_off_at: year.all_year)
+    end
 end

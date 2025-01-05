@@ -22,7 +22,6 @@ class League < ApplicationRecord
     rows_desc_sorted_by_points = rows.sort_by { |club| club.points }.reverse
     rows_desc_sorted_by_points.each { |row| row.rank = rows_desc_sorted_by_points.index(row) + 1 }
   end
-
   def rank_rows_have_the_same_points(rows)
     # Compare the two rows next to each other in the standings.
     # If the points are the same, the one with the most goal difference will be on top.

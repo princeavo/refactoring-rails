@@ -9,4 +9,7 @@ module ClubDecorator
 
     "matches: #{matches} won: #{won} lost: #{lost} draw: #{draw}"
   end
+  def homebase
+    "#{hometown}, #{country}"
+  end
 end
